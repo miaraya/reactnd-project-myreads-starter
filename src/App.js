@@ -1,41 +1,52 @@
-import React, { Component } from "react";
+import React from "react";
 import * as BooksAPI from "./BooksAPI";
 import "./App.css";
 import { Route } from "react-router-dom";
 
 class BooksApp extends React.Component {
-  state = { books: [] };
+  state = { books: [], result: [], query: "" };
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
       this.setState(() => ({
         books,
       }));
-      console.log(books);
     });
   }
 
-  shelfChange = () => {
+  shelfChange = (book) => {
+    if (book) {
+      const aux = this.state.books.find((x) => x.id === book.id);
+      if (aux) {
+        aux.shelf = book.shelf;
+        this.setState((currentState) => ({
+          books: currentState.books,
+        }));
+      } else {
+        this.setState((currentState) => ({
+          books: currentState.books.concat([book]),
+        }));
+      }
+    }
     this.setState((currentState) => ({
       books: currentState.books,
     }));
   };
-  addBook = (book) => {
-    const aux = this.state.books.find((x) => x.id === book.id);
-    if (aux) {
-      aux.shelf = book.shelf;
-      this.setState((currentState) => ({
-        books: currentState.books,
-      }));
-    } else {
-      this.setState((currentState) => ({
-        books: currentState.books.concat([book]),
-      }));
-    }
+
+  doSearch = (query) => {
+    this.setState({ query });
+    query !== ""
+      ? BooksAPI.search(query).then((result) => {
+          result !== undefined &&
+            this.setState(() => ({
+              result: result.error ? [] : result,
+            }));
+        })
+      : this.setState({ result: [] });
   };
 
   render() {
-    const { books } = this.state;
+    const { books, query, result } = this.state;
     return (
       <div className="app">
         <Route
@@ -56,7 +67,10 @@ class BooksApp extends React.Component {
               goBack={() => {
                 history.push("/");
               }}
-              handleChange={this.addBook}
+              doSearch={this.doSearch}
+              query={query}
+              books={result}
+              shelfChange={this.shelfChange}
             />
           )}
         />
@@ -65,60 +79,52 @@ class BooksApp extends React.Component {
   }
 }
 
-class BookSearch extends Component {
-  state = { books: [], query: "" };
-  doSearch = (query) => {
-    this.setState({ query });
-    BooksAPI.search(query).then((books) => {
-      books !== undefined &&
-        this.setState(() => ({
-          books: books.error ? [] : books,
-        }));
+const BookSearch = (props) => {
+  const { books, query } = props;
 
-      console.log(books);
-    });
-  };
-  handleChange = (book) => {
-    this.props.handleChange(book);
+  const doSearch = (query) => {
+    props.doSearch(query);
   };
 
-  render() {
-    const { books } = this.state;
-    return (
-      <div className="search-books">
-        <div className="search-books-bar">
-          <button className="close-search" onClick={() => this.props.goBack()}>
-            Close
-          </button>
-          <SearchInput doSearch={this.doSearch} />
-        </div>
+  const handleChange = (book) => {
+    props.shelfChange(book);
+  };
 
-        <div className="search-books-results">
-          <ol className="books-grid">
-            {books.map((book) => {
-              return (
-                <li key={book.id}>
-                  <Book book={book} handleChange={this.handleChange} />
-                </li>
-              );
-            })}
-          </ol>
-        </div>
+  return (
+    <div className="search-books">
+      <div className="search-books-bar">
+        <button className="close-search" onClick={() => props.goBack()}>
+          Close
+        </button>
+        <SearchInput handleChange={doSearch} query={query} />
       </div>
-    );
-  }
-}
+
+      <div className="search-books-results">
+        <ol className="books-grid">
+          {books.map((book) => {
+            return (
+              <li key={book.id}>
+                <Book book={book} handleChange={handleChange} />
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    </div>
+  );
+};
 
 const SearchInput = (props) => {
   const handleChange = (event) => {
-    props.doSearch(event.target.value);
+    props.handleChange(event.target.value);
   };
   return (
     <div className="search-books-input-wrapper">
       <input
         type="text"
-        placeholder="Search by title or author"
+        placeholder={"Search by title or author"}
         onChange={handleChange}
+        value={props.query}
       />
     </div>
   );
