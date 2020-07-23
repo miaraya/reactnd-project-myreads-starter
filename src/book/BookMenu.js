@@ -15,10 +15,7 @@ const BookMenu = (props) => {
   };
   return (
     <div className="book-shelf-changer">
-      <select
-        onChange={handleMenuChange}
-        defaultValue={props.book.shelf ? props.book.shelf : "none"}
-      >
+      <select onChange={handleMenuChange} defaultValue={props.book.shelf}>
         {shelves.map((o) => (
           <option key={o.value} value={o.value} disabled={o.disabled}>
             {o.text}

@@ -1,5 +1,5 @@
 import React from "react";
-import * as BooksAPI from "./BooksAPI";
+import * as BooksAPI from "./book/BooksAPI";
 import "./App.css";
 import { Route } from "react-router-dom";
 import BookSearch from "./book/BookSearch";
@@ -37,12 +37,17 @@ class BooksApp extends React.Component {
 
   doSearch = (query) => {
     BooksAPI.search(query).then((result) => {
-      console.log(result);
-      result !== undefined
-        ? this.setState((currentState) => ({
-            result: result.error ? [] : result,
-          }))
-        : this.setState({ result: [] });
+      if (result !== undefined) {
+        result.length &&
+          result.forEach((b) => {
+            b.shelf = this.state.books.find((x) => x.id === b.id)
+              ? this.state.books.find((x) => x.id === b.id).shelf
+              : "none";
+          });
+        this.setState((currentState) => ({
+          result: result.error ? [] : result,
+        }));
+      } else this.setState({ result: [] });
     });
     this.setState({ query });
   };
