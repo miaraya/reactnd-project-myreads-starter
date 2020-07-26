@@ -6,7 +6,7 @@ const BookList = (props) => {
   const { books } = props;
 
   const handleChange = (book) => {
-    props.shelfChange();
+    props.shelfChange(book);
   };
   return (
     <div className="list-books">

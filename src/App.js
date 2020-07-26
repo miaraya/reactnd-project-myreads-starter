@@ -29,6 +29,7 @@ class BooksApp extends React.Component {
           books: currentState.books.concat([book]),
         }));
       }
+      BooksAPI.update(book, book ? book.shelf : "none");
     }
     this.setState((currentState) => ({
       books: currentState.books,
