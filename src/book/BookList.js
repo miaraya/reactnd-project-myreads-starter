@@ -1,36 +1,46 @@
 import React from "react";
 import PropTypes from "prop-types";
 import BookShelf from "./BookShelf";
+import { Link } from "react-router-dom";
 
 const BookList = (props) => {
   const handleChange = (book, shelf) => {
     props.shelfChange(book, shelf);
   };
+  const SHELVES = [
+    {
+      title: "Currently Reading",
+      id: "currentlyReading",
+    },
+    {
+      title: "Want To Read",
+      id: "wantToRead",
+    },
+    {
+      title: "Read",
+      id: "read",
+    },
+  ];
   return (
     <div className="list-books">
       <div className="list-books-title">
         <h1>MyReads</h1>
       </div>
       <div className="list-books-content">
-        <BookShelf
-          books={props.books.filter((b) => b.shelf === "currentlyReading")}
-          handleChange={handleChange}
-          title="Currently Reading"
-        />
-        <BookShelf
-          books={props.books.filter((b) => b.shelf === "wantToRead")}
-          handleChange={handleChange}
-          title="Want to Read"
-        />
-        <BookShelf
-          books={props.books.filter((b) => b.shelf === "read")}
-          handleChange={handleChange}
-          title="Read"
-        />
+        {SHELVES.map((s) => (
+          <BookShelf
+            key={s.id}
+            books={props.books.filter((b) => b.shelf === s.id)}
+            handleChange={handleChange}
+            title={s.title}
+          />
+        ))}
       </div>
       )
       <div className="open-search">
-        <button onClick={() => props.goSearch()}>Add a book</button>
+        <Link to="/search">
+          <button>Add</button>
+        </Link>
       </div>
     </div>
   );
