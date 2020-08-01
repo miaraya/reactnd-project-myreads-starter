@@ -5,21 +5,13 @@ import Book from "./Book";
 const BookSearch = (props) => {
   const { books, query } = props;
 
-  const doSearch = (query) => {
-    props.doSearch(query);
-  };
-
-  const handleChange = (book, shelf) => {
-    props.addBook(book, shelf);
-  };
-
   return (
     <div className="search-books">
       <div className="search-books-bar">
         <button className="close-search" onClick={() => props.goBack()}>
           Close
         </button>
-        <SearchInput handleChange={doSearch} query={query} />
+        <SearchInput handleChange={props.doSearch} query={query} />
       </div>
 
       <div className="search-books-results">
@@ -27,7 +19,7 @@ const BookSearch = (props) => {
           {books.map((book) => {
             return (
               <li key={book.id}>
-                <Book book={book} handleChange={handleChange} />
+                <Book book={book} handleChange={props.addBook} />
               </li>
             );
           })}

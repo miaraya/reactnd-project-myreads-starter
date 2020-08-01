@@ -3,9 +3,6 @@ import PropTypes from "prop-types";
 import BookMenu from "./BookMenu";
 
 const Book = (props) => {
-  const handleChange = (book, shelf) => {
-    props.handleChange(book, shelf);
-  };
   return (
     <div className="book">
       <div className="book-top">
@@ -19,7 +16,7 @@ const Book = (props) => {
               `url("${props.book.imageLinks.smallThumbnail}")`,
           }}
         />
-        <BookMenu book={props.book} handleChange={handleChange} />
+        <BookMenu book={props.book} handleChange={props.handleChange} />
       </div>
       <div className="book-title">{props.book.title}</div>
       {props.book.authors ? (

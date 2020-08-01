@@ -4,9 +4,6 @@ import BookShelf from "./BookShelf";
 import { Link } from "react-router-dom";
 
 const BookList = (props) => {
-  const handleChange = (book, shelf) => {
-    props.shelfChange(book, shelf);
-  };
   const SHELVES = [
     {
       title: "Currently Reading",
@@ -31,7 +28,7 @@ const BookList = (props) => {
           <BookShelf
             key={s.id}
             books={props.books.filter((b) => b.shelf === s.id)}
-            handleChange={handleChange}
+            handleChange={props.shelfChange}
             title={s.title}
           />
         ))}
