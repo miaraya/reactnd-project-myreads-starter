@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import BookShelf from "./BookShelf";
 
 const BookList = (props) => {
-  const handleChange = (book) => {
-    props.shelfChange(book);
+  const handleChange = (book, shelf) => {
+    props.shelfChange(book, shelf);
   };
   return (
     <div className="list-books">

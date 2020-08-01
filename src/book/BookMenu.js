@@ -10,8 +10,7 @@ const BookMenu = (props) => {
     { value: "none", text: "None", disabled: false },
   ];
   const handleMenuChange = (event) => {
-    props.book.shelf = event.target.value;
-    props.handleChange(props.book);
+    props.handleChange(props.book, event.target.value);
   };
   return (
     <div className="book-shelf-changer">

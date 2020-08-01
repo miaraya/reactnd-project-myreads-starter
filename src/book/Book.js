@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import BookMenu from "./BookMenu";
 
 const Book = (props) => {
-  const handleChange = (book) => {
-    props.handleChange(book);
+  const handleChange = (book, shelf) => {
+    props.handleChange(book, shelf);
   };
   return (
     <div className="book">

@@ -9,8 +9,8 @@ const BookSearch = (props) => {
     props.doSearch(query);
   };
 
-  const handleChange = (book) => {
-    props.addBook(book);
+  const handleChange = (book, shelf) => {
+    props.addBook(book, shelf);
   };
 
   return (

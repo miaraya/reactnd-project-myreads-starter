@@ -16,16 +16,18 @@ class BooksApp extends React.Component {
     });
   }
 
-  addBook = (book) => {
-    BooksAPI.update(book, book.shelf);
+  addBook = (book, shelf) => {
+    book.shelf = shelf;
+    BooksAPI.update(book, shelf);
     this.setState((currentState) => ({
       books: [...currentState.books, book],
     }));
     console.log(this.state.books);
   };
 
-  shelfChange = (book) => {
-    BooksAPI.update(book, book.shelf);
+  shelfChange = (book, shelf) => {
+    BooksAPI.update(book, shelf);
+    book.shelf = shelf;
     this.setState((currentState) => ({
       books: currentState.books,
     }));
@@ -33,6 +35,7 @@ class BooksApp extends React.Component {
 
   doSearch = (query) => {
     BooksAPI.search(query).then((result) => {
+      console.log(result);
       if (result !== undefined) {
         result.length &&
           result.forEach((b) => {
@@ -40,9 +43,10 @@ class BooksApp extends React.Component {
               ? this.state.books.find((x) => x.id === b.id).shelf
               : "none";
           });
-        this.setState((currentState) => ({
-          result: result.error ? [] : result,
-        }));
+        this.state.query === query &&
+          this.setState((currentState) => ({
+            result: result.error ? [] : result,
+          }));
       } else this.setState({ result: [] });
     });
     this.setState({ query });
