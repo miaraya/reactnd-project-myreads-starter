@@ -10,7 +10,7 @@ const BookSearch = (props) => {
   };
 
   const handleChange = (book) => {
-    props.shelfChange(book);
+    props.addBook(book);
   };
 
   return (
@@ -57,7 +57,7 @@ BookSearch.propTypes = {
   doSearch: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
   books: PropTypes.array,
-  shelfChange: PropTypes.func.isRequired,
+  addBook: PropTypes.func.isRequired,
 };
 
 export default BookSearch;

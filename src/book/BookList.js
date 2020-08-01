@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import BookShelf from "./BookShelf";
 
 const BookList = (props) => {
-  const { books } = props;
-
   const handleChange = (book) => {
     props.shelfChange(book);
   };
@@ -15,17 +13,17 @@ const BookList = (props) => {
       </div>
       <div className="list-books-content">
         <BookShelf
-          books={books.filter((b) => b.shelf === "currentlyReading")}
+          books={props.books.filter((b) => b.shelf === "currentlyReading")}
           handleChange={handleChange}
           title="Currently Reading"
         />
         <BookShelf
-          books={books.filter((b) => b.shelf === "wantToRead")}
+          books={props.books.filter((b) => b.shelf === "wantToRead")}
           handleChange={handleChange}
           title="Want to Read"
         />
         <BookShelf
-          books={books.filter((b) => b.shelf === "read")}
+          books={props.books.filter((b) => b.shelf === "read")}
           handleChange={handleChange}
           title="Read"
         />
