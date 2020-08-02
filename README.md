@@ -4,12 +4,18 @@ My Reads is a book tracking app where you can organize your books in shelves, ea
 
 The app also has a search functionality where you can add books to your collection.
 
-This is the first project of the React Nanodegree Program from Udacity.
+This is the first project of the **React Nanodegree Program** from Udacity.
 
 # Installation
 
 To get started developing right away:
 
-- git clone https://github.com/miaraya/reactnd-project-myreads-starter.git
-- cd reactnd-project-myreads-starter
-- npm install
+- `git clone https://github.com/miaraya/reactnd-project-myreads-starter.git`
+- `cd reactnd-project-myreads-starter`
+- `npm install`
+
+# Getting started
+
+To launch the project:
+
+- `npm start`
